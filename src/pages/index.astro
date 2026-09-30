@@ -1,0 +1,23 @@
+---
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import About from "../components/About.astro";
+import Skills from "../components/Skills.astro";
+import Projects from "../components/Projects.astro";
+import Contact from "../components/Contact.astro";
+import { site } from "../data/site";
+---
+<Base>
+  <Header />
+  <main id="contenu">
+    <Hero />
+    <Projects />
+    <Skills />
+    <About />
+    <Contact />
+  </main>
+  <footer class="border-t border-line py-8 text-center text-sm text-muted">
+    © {new Date().getFullYear()} {site.name}
+  </footer>
+</Base>

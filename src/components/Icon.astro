@@ -1,0 +1,26 @@
+---
+import code from "@tabler/icons/outline/code.svg?raw";
+import database from "@tabler/icons/outline/database.svg?raw";
+import shield from "@tabler/icons/outline/shield-check.svg?raw";
+import activity from "@tabler/icons/outline/activity.svg?raw";
+import card from "@tabler/icons/outline/credit-card.svg?raw";
+import mail from "@tabler/icons/outline/mail.svg?raw";
+import phone from "@tabler/icons/outline/phone.svg?raw";
+import linkedin from "@tabler/icons/outline/brand-linkedin.svg?raw";
+import github from "@tabler/icons/outline/brand-github.svg?raw";
+import chat from "@tabler/icons/outline/message-circle.svg?raw";
+import pig from "@tabler/icons/outline/pig-money.svg?raw";
+import mobile from "@tabler/icons/outline/device-mobile.svg?raw";
+import exchange from "@tabler/icons/outline/arrows-exchange.svg?raw";
+import chart from "@tabler/icons/outline/chart-bar.svg?raw";
+import whatsapp from "@tabler/icons/outline/brand-whatsapp.svg?raw";
+import apple from "@tabler/icons/outline/brand-apple.svg?raw";
+import gplay from "@tabler/icons/outline/brand-google-play.svg?raw";
+import sun from "@tabler/icons/outline/sun.svg?raw";
+import moon from "@tabler/icons/outline/moon.svg?raw";
+import arrow from "@tabler/icons/outline/arrow-up-right.svg?raw";
+
+const icons: Record<string, string> = { code, database, "shield-check": shield, activity, "credit-card": card, mail, phone, linkedin, github, arrow, sun, moon, "brand-whatsapp": whatsapp, "brand-apple": apple, "brand-google-play": gplay, "message-circle": chat, "pig-money": pig, "device-mobile": mobile, "arrows-exchange": exchange, "chart-bar": chart };
+const { name } = Astro.props as { name: string };
+---
+<span class="icon inline-flex" aria-hidden="true" set:html={icons[name]} />

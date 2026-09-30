@@ -1,0 +1,356 @@
+@import "tailwindcss";
+@import "@fontsource-variable/sora";
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
+
+/* ============================================================
+   SEUL fichier de couleurs et de polices du projet.
+   Modifier ici = modifier partout.
+   Rayons : cartes 1rem, boutons 0.75rem, pastilles en pilule.
+   ============================================================ */
+@theme {
+  --color-bg: #0a101c;
+  --color-bg-raised: #0f1829;
+  --color-card: rgba(148, 163, 184, 0.06);
+  --color-line: rgba(148, 163, 184, 0.16);
+  --color-text: #e8eef7;
+  --color-muted: #9aa8bc;
+  --color-accent: #34d399;
+  --color-accent-hover: #6ee7b7;
+  --color-on-accent: #04130d;
+
+  --font-display: "Sora Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, monospace;
+}
+
+/* Variables complémentaires (mode sombre par défaut) */
+:root {
+  color-scheme: dark;
+  --field-bg: rgba(10, 16, 28, 0.6);
+  --error: #fca5a5;
+  --glass: rgba(10, 16, 28, 0.55);
+  --glow-1: rgba(52, 211, 153, 0.09);
+  --glow-2: rgba(56, 89, 160, 0.16);
+  --glow-3: rgba(56, 89, 160, 0.12);
+  --cover-a: rgba(52, 211, 153, 0.28);
+  --cover-b: rgba(56, 89, 160, 0.35);
+  --cover-dots: rgba(232, 238, 247, 0.16);
+  --photo-shadow: rgba(0, 0, 0, 0.45);
+}
+
+/* Mode clair : mêmes rôles, accent plus foncé pour garder un contraste AA */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --color-bg: #f6f8fb;
+  --color-bg-raised: #ffffff;
+  --color-card: rgba(15, 23, 42, 0.035);
+  --color-line: rgba(15, 23, 42, 0.13);
+  --color-text: #0f172a;
+  --color-muted: #475569;
+  --color-accent: #047857;
+  --color-accent-hover: #065f46;
+  --color-on-accent: #ffffff;
+  --field-bg: #ffffff;
+  --error: #b91c1c;
+  --glass: rgba(255, 255, 255, 0.7);
+  --glow-1: rgba(4, 120, 87, 0.08);
+  --glow-2: rgba(56, 89, 160, 0.1);
+  --glow-3: rgba(56, 89, 160, 0.07);
+  --cover-a: rgba(4, 120, 87, 0.2);
+  --cover-b: rgba(56, 89, 160, 0.2);
+  --cover-dots: rgba(15, 23, 42, 0.16);
+  --photo-shadow: rgba(15, 23, 42, 0.22);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(60rem 32rem at 88% -8%, var(--glow-1), transparent 60%),
+    radial-gradient(52rem 34rem at -12% 28%, var(--glow-2), transparent 60%),
+    radial-gradient(48rem 30rem at 60% 105%, var(--glow-3), transparent 60%);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Barre de progression de lecture (CSS pur, navigateurs compatibles) */
+.progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: var(--color-accent);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  z-index: 60;
+}
+@supports (animation-timeline: scroll()) {
+  .progress {
+    animation: grow linear both;
+    animation-timeline: scroll(root);
+  }
+}
+@keyframes grow {
+  to { transform: scaleX(1); }
+}
+
+/* Apparition au scroll, avec décalage optionnel via --d */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--d, 0ms);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Entrée du hero au chargement */
+.hero-in {
+  opacity: 0;
+  animation: rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: calc(var(--i, 0) * 110ms + 80ms);
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Cartes : bordure fine, projecteur qui suit le curseur */
+.card {
+  position: relative;
+  background: var(--color-card);
+  border: 1px solid var(--color-line);
+  border-radius: 1rem;
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+  overflow: hidden;
+}
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 50%), rgba(52, 211, 153, 0.12), transparent 60%);
+  transition: opacity 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(52, 211, 153, 0.45);
+}
+.card:hover::after {
+  opacity: 1;
+}
+.card-accent {
+  background:
+    linear-gradient(140deg, rgba(52, 211, 153, 0.16), rgba(52, 211, 153, 0.02) 55%),
+    var(--color-card);
+}
+.card-dots {
+  background-image: radial-gradient(rgba(148, 163, 184, 0.22) 1px, transparent 1px);
+  background-size: 16px 16px;
+  background-color: var(--color-card);
+}
+
+.chip {
+  display: inline-block;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.4rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+.btn:active {
+  transform: scale(0.98);
+}
+.btn-primary {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+.btn-primary:hover {
+  background: var(--color-accent-hover);
+}
+.btn-ghost {
+  border: 1px solid var(--color-line);
+  color: var(--color-text);
+}
+.btn-ghost:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  stroke-width: 1.5;
+}
+
+/* Bandeau de technologies (un seul défilement sur la page) */
+.marquee {
+  display: flex;
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 3.5rem;
+  padding-right: 3.5rem;
+  animation: scroll-x 34s linear infinite;
+}
+@keyframes scroll-x {
+  to { transform: translateX(-100%); }
+}
+
+/* Frise de formation */
+.timeline-line {
+  background: linear-gradient(var(--color-accent), var(--color-line) 40%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .hero-in { opacity: 1; animation: none; }
+  .card, .btn { transition: none; }
+  .card:hover { transform: none; }
+  .card::after { display: none; }
+  .progress { display: none; }
+  .marquee { overflow-x: auto; mask-image: none; }
+  .marquee-track { animation: none; }
+  .marquee-track[aria-hidden="true"] { display: none; }
+}
+
+/* Couverture de projet : visuel abstrait à remplacer par une vraie capture */
+.cover {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background:
+    radial-gradient(70% 90% at var(--gx, 20%) var(--gy, 0%), var(--cover-a), transparent 65%),
+    radial-gradient(60% 80% at 100% 100%, var(--cover-b), transparent 70%),
+    var(--color-bg-raised);
+}
+.cover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(var(--cover-dots) 1px, transparent 1px);
+  background-size: 18px 18px;
+  mask-image: linear-gradient(160deg, #000, transparent 75%);
+}
+.cover-icon {
+  position: relative;
+  display: flex;
+  height: 5rem;
+  width: 5rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(52, 211, 153, 0.45);
+  border-radius: 1.25rem;
+  background: var(--glass);
+  color: var(--color-accent);
+  backdrop-filter: blur(6px);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cover-icon svg {
+  width: 2.25rem;
+  height: 2.25rem;
+  stroke-width: 1.4;
+}
+.card:hover .cover-icon {
+  transform: scale(1.08) rotate(-3deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .card:hover .cover-icon { transform: none; }
+}
+
+/* Capture de téléphone : cadrée en haut, coupée en bas comme un aperçu d'app */
+.cover-phone {
+  align-items: flex-start;
+  padding-top: 1.75rem;
+}
+.cover-phone img {
+  position: relative;
+  width: min(10.5rem, 60%);
+  height: auto;
+  border-radius: 1.5rem 1.5rem 0 0;
+  border: 1px solid var(--color-line);
+  box-shadow: 0 20px 50px var(--photo-shadow);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card:hover .cover-phone img {
+  transform: translateY(-6px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .card:hover .cover-phone img { transform: none; }
+}
+
+/* Champs de formulaire */
+.field {
+  width: 100%;
+  border: 1px solid var(--color-line);
+  border-radius: 0.75rem;
+  background: var(--field-bg);
+  color: var(--color-text);
+  padding: 0.75rem 1rem;
+  font: inherit;
+  transition: border-color 0.2s ease;
+}
+.field:hover { border-color: rgba(148, 163, 184, 0.35); }
+.field:focus { border-color: var(--color-accent); outline: none; box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.25); }
+.field[aria-invalid="true"] { border-color: var(--error); }
+.field-error { margin-top: 0.4rem; font-size: 0.85rem; color: var(--error); }
+
+/* Bouton de bascule de thème */
+.theme-toggle {
+  display: inline-flex;
+  height: 2.25rem;
+  width: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-line);
+  border-radius: 0.75rem;
+  color: var(--color-muted);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.theme-toggle:hover { color: var(--color-accent); border-color: var(--color-accent); }
+.theme-toggle .icon-sun { display: none; }
+:root[data-theme="light"] .theme-toggle .icon-moon { display: none; }
+:root[data-theme="light"] .theme-toggle .icon-sun { display: inline-flex; }

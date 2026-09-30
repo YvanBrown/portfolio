@@ -1,0 +1,24 @@
+---
+import { about } from "../data/site";
+---
+<section id="a-propos" class="mx-auto max-w-6xl px-5 py-24">
+  <div class="grid items-start gap-12 md:grid-cols-[1fr_1.6fr] md:gap-16">
+    <div class="reveal card aspect-[4/5] max-w-[16rem] md:max-w-none">
+      <img src="/projects/portrait.webp" alt="Portrait de Théo Brad Ivan EYEGHE NYOUNDOU devant son ordinateur portable" width="900" height="1125" loading="lazy" decoding="async" class="h-full w-full object-cover" />
+    </div>
+    <div>
+      <h2 class="reveal font-display text-4xl font-semibold tracking-tight sm:text-5xl">À propos</h2>
+      <p class="reveal mt-8 max-w-2xl font-display text-xl font-medium leading-snug sm:text-2xl">{about.text}</p>
+      <dl class="mt-10 max-w-2xl space-y-6 border-t border-line pt-8">
+        {about.details.map((d, i) => (
+          <div class="reveal grid gap-1 sm:grid-cols-[11rem_1fr] sm:gap-6" style={`--d:${i * 80}ms`}>
+            <dt class="font-mono text-xs uppercase tracking-widest text-accent sm:pt-1">{d.label}</dt>
+            <dd class="space-y-1 leading-relaxed text-muted">
+              {d.lines.map((l) => <p>{l}</p>)}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </div>
+</section>

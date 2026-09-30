@@ -1,0 +1,21 @@
+---
+import { skills } from "../data/site";
+import Icon from "./Icon.astro";
+const variant = { accent: "card-accent", plain: "", dots: "card-dots" };
+---
+<section id="competences" class="mx-auto max-w-6xl px-5 py-24">
+  <h2 class="reveal font-display text-4xl font-semibold tracking-tight sm:text-5xl">Ce que je fais</h2>
+  <p class="reveal mt-3 max-w-xl text-muted">Cinq domaines que je pratique au quotidien, du code à la supervision.</p>
+  <div class="mt-10 grid gap-4 md:grid-cols-12">
+    {skills.map((s, i) => (
+      <article class={`card reveal flex flex-col p-6 ${variant[s.variant]} ${s.span}`} style={`--d:${i * 70}ms`}>
+        <span class="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-line text-accent"><Icon name={s.icon} /></span>
+        <h3 class={`font-display font-semibold ${i === 0 ? "text-2xl sm:text-3xl" : "text-xl"}`}>{s.title}</h3>
+        <p class={`mt-2 max-w-md leading-relaxed text-muted ${i === 0 ? "text-base sm:text-lg" : "text-[0.95rem]"}`}>{s.text}</p>
+        <ul class="mt-auto flex flex-wrap gap-2 pt-6">
+          {s.tags.map((t) => <li class="chip">{t}</li>)}
+        </ul>
+      </article>
+    ))}
+  </div>
+</section>

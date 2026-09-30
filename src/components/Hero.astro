@@ -1,0 +1,47 @@
+---
+import * as si from "simple-icons";
+import { techLogos, projects } from "../data/site";
+import Icon from "./Icon.astro";
+const logos = techLogos.map((k) => (si as any)[k]).filter(Boolean);
+const stack = [
+  { p: projects[0], cls: "left-0 top-0 w-[64%] -rotate-3", pos: "80% 0%" },
+  { p: projects[1], cls: "right-0 top-[30%] w-[58%] rotate-2", pos: "10% 100%" },
+  { p: projects[2], cls: "left-[10%] bottom-0 w-[54%] -rotate-1", pos: "90% 20%" },
+];
+---
+<section id="top" class="mx-auto max-w-6xl px-5 pt-28 sm:pt-32">
+  <div class="grid items-center gap-12 lg:grid-cols-[1.25fr_1fr]">
+    <div>
+      <h1 class="hero-in font-display text-4xl font-semibold leading-[1.08] tracking-tight sm:text-6xl" style="--i:0">
+        Je développe, je teste et je supervise des solutions <span class="text-accent">numériques</span>.
+      </h1>
+      <p class="hero-in mt-6 max-w-lg text-lg leading-relaxed text-muted" style="--i:1">
+        Développeur back-end, QA/UAT et data analyst transactions, basé à Libreville. Voici ce que j'ai construit.
+      </p>
+      <div class="hero-in mt-9 flex flex-wrap gap-3" style="--i:2">
+        <a href="#projets" class="btn btn-primary">Voir mes projets</a>
+        <a href="#contact" class="btn btn-ghost">Me contacter</a>
+      </div>
+    </div>
+
+    <div class="hero-in relative hidden h-[24rem] lg:block" style="--i:2" aria-hidden="true">
+      {stack.map((s) => (
+        <div class={`card shadow-2xl shadow-black/40 ${s.cls}`} style="position:absolute">
+          <div class="cover" style={`--gx:${s.pos.split(" ")[0]};--gy:${s.pos.split(" ")[1]}`}>
+            <span class="cover-icon"><Icon name={s.p.icon} /></span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="marquee mt-16 border-y border-line py-7" aria-label="Technologies utilisées">
+    {[0, 1].map((n) => (
+      <div class="marquee-track" aria-hidden={n === 1 ? "true" : undefined}>
+        {logos.map((l: any) => (
+          <svg role={n === 0 ? "img" : undefined} aria-label={n === 0 ? l.title : undefined} viewBox="0 0 24 24" class="h-8 w-8 shrink-0 fill-muted transition-colors hover:fill-accent" xmlns="http://www.w3.org/2000/svg"><path d={l.path} /></svg>
+        ))}
+      </div>
+    ))}
+  </div>
+</section>

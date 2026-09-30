@@ -1,0 +1,14 @@
+---
+import { projects } from "../data/site";
+import ProjectCard from "./ProjectCard.astro";
+const [featured, ...rest] = projects;
+const positions = ["80% 0%", "10% 100%", "90% 20%", "30% 0%"];
+---
+<section id="projets" class="mx-auto max-w-6xl px-5 py-24">
+  <h2 class="reveal font-display text-4xl font-semibold tracking-tight sm:text-5xl">Projets</h2>
+  <p class="reveal mt-3 max-w-xl text-muted">Des produits que j'ai conçus, développés ou fiabilisés.</p>
+  <div class="mt-12 grid gap-5 md:grid-cols-3">
+    <ProjectCard project={featured} featured />
+    {rest.map((p, i) => <ProjectCard project={p} delay={i * 70} pos={positions[i]} />)}
+  </div>
+</section>

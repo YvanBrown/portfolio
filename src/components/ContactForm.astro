@@ -1,0 +1,85 @@
+---
+import { site } from "../data/site";
+---
+<form id="contact-form" class="space-y-5" novalidate data-endpoint={site.formEndpoint} data-email={site.email}>
+  <div>
+    <label for="cf-name" class="mb-2 block text-sm font-medium">Nom</label>
+    <input id="cf-name" name="name" type="text" required autocomplete="name" class="field" />
+    <p class="field-error" data-for="name" hidden>Indiquez votre nom.</p>
+  </div>
+  <div>
+    <label for="cf-email" class="mb-2 block text-sm font-medium">Email</label>
+    <input id="cf-email" name="email" type="email" required autocomplete="email" class="field" />
+    <p class="field-error" data-for="email" hidden>Indiquez une adresse email valide.</p>
+  </div>
+  <div>
+    <label for="cf-message" class="mb-2 block text-sm font-medium">Message</label>
+    <textarea id="cf-message" name="message" rows="5" required class="field resize-y"></textarea>
+    <p class="field-error" data-for="message" hidden>Écrivez votre message.</p>
+  </div>
+  <!-- Anti-spam : champ invisible, rempli seulement par les robots -->
+  <div class="absolute -left-[9999px]" aria-hidden="true">
+    <label for="cf-website">Ne pas remplir</label>
+    <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+  <div class="flex flex-wrap items-center gap-4">
+    <button type="submit" class="btn btn-primary" id="cf-submit">Envoyer le message</button>
+    <p id="cf-status" class="text-sm" role="status" aria-live="polite"></p>
+  </div>
+</form>
+
+<script>
+  const form = document.getElementById("contact-form") as HTMLFormElement | null;
+  if (form) {
+    const status = document.getElementById("cf-status")!;
+    const btn = document.getElementById("cf-submit") as HTMLButtonElement;
+    const endpoint = form.dataset.endpoint || "";
+    const to = form.dataset.email || "";
+    const setStatus = (msg: string, ok: boolean) => {
+      status.textContent = msg;
+      status.style.color = ok ? "var(--color-accent)" : "var(--error)";
+    };
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+      if (data.website) return; // robot
+
+      let valid = true;
+      for (const key of ["name", "email", "message"]) {
+        const el = form.elements.namedItem(key) as HTMLInputElement;
+        const err = form.querySelector<HTMLElement>(`[data-for="${key}"]`)!;
+        const bad = !el.value.trim() || (key === "email" && !el.checkValidity());
+        err.hidden = !bad;
+        el.setAttribute("aria-invalid", String(bad));
+        if (bad && valid) { el.focus(); valid = false; }
+      }
+      if (!valid) { setStatus("", true); return; }
+
+      if (!endpoint) {
+        const subject = encodeURIComponent(`Message depuis le portfolio - ${data.name}`);
+        const body = encodeURIComponent(`${data.message}\n\n${data.name}\n${data.email}`);
+        window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+        setStatus("Votre messagerie s'ouvre avec le message pré-rempli. Il ne reste qu'à l'envoyer.", true);
+        return;
+      }
+
+      btn.disabled = true;
+      setStatus("Envoi en cours...", true);
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { Accept: "application/json", "Content-Type": "application/json" },
+          body: JSON.stringify({ name: data.name, email: data.email, message: data.message }),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        setStatus("Merci, votre message a bien été envoyé.", true);
+      } catch {
+        setStatus(`L'envoi a échoué. Vous pouvez m'écrire directement à ${to}.`, false);
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  }
+</script>

@@ -1,0 +1,19 @@
+---
+import { site } from "../data/site";
+import Icon from "./Icon.astro";
+import ContactForm from "./ContactForm.astro";
+---
+<section id="contact" class="mx-auto max-w-6xl px-5 py-24">
+  <div class="card card-accent reveal p-8 sm:p-12">
+    <div class="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+      <div>
+        <h2 class="font-display text-4xl font-semibold tracking-tight sm:text-5xl">Contact</h2>
+        <p class="mt-4 max-w-md text-lg text-muted">Une mission, une collaboration ou une question : écrivez-moi.</p>
+        <a href={`mailto:${site.email}`} class="mt-8 inline-flex items-center gap-3 break-all font-medium text-accent hover:text-accent-hover">
+          <Icon name="mail" /> {site.email}
+        </a>
+      </div>
+      <ContactForm />
+    </div>
+  </div>
+</section>
