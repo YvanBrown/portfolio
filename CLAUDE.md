@@ -1,6 +1,6 @@
 # Portfolio — Théo Brad Ivan EYEGHE NYOUNDOU
 
-Nom affiché : « Théo Brad Ivan EYEGHE NYOUNDOU » (`site.name`). Sur petit mobile, l'en-tête affiche `site.shortName` (« EYEGHE NYOUNDOU ») pour tenir sur une ligne.
+Nom affiché : « Théo Brad Ivan EYEGHE NYOUNDOU » (`site.name`). Dans l'en-tête, le nom passe sur deux lignes sur mobile (prénoms, puis nom) et sur une ligne dès 640 px.
 
 Portfolio d'une seule page. Développeur back-end, QA/UAT et data analyst transactions (dev, tests, monitoring), expérience FinTech, basé à Libreville (Gabon). Français uniquement. Les infos viennent du CV mais la page doit rester un PORTFOLIO (projets en vedette, visuels), jamais la forme d'un CV : pas de frise d'expérience ni de formation.
 

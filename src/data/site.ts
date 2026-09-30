@@ -1,6 +1,7 @@
 export const site = {
+  givenNames: "Théo Brad Ivan",
+  familyName: "EYEGHE NYOUNDOU",
   name: "Théo Brad Ivan EYEGHE NYOUNDOU",
-  shortName: "EYEGHE NYOUNDOU",
   title: "Théo Brad Ivan EYEGHE NYOUNDOU | Développeur back-end, QA/UAT et data analyst transactions",
   description:
     "Développeur back-end, QA/UAT et data analyst transactions basé à Libreville (Gabon). Je développe, teste et supervise des solutions numériques, avec une expérience FinTech chez Paynala Gabon.",
