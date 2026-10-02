@@ -1,16 +1,16 @@
 ---
 import type { Project } from "../data/site";
 import Icon from "./Icon.astro";
-const { project: p, featured = false, delay = 0, pos = "20% 0%" } = Astro.props as { project: Project; featured?: boolean; delay?: number; pos?: string };
+const { project: p, featured = false, flip = false, delay = 0, pos = "20% 0%" } = Astro.props as { project: Project; featured?: boolean; flip?: boolean; delay?: number; pos?: string };
 const [gx, gy] = pos.split(" ");
 ---
-<article class={`card reveal flex flex-col ${featured ? "md:col-span-3 md:grid md:grid-cols-[1.25fr_1fr]" : ""}`} style={`--d:${delay}ms`}>
+<article class={`card reveal flex flex-col ${featured ? (flip ? "md:col-span-3 md:grid md:grid-cols-[1fr_1.25fr]" : "md:col-span-3 md:grid md:grid-cols-[1.25fr_1fr]") : ""}`} style={`--d:${delay}ms`}>
   {p.image?.kind === "phone" ? (
     <div class="cover cover-phone" style={`--gx:${gx};--gy:${gy}`}>
       <img src={p.image.src} alt={p.image.alt} width={p.image.w} height={p.image.h} loading="lazy" decoding="async" />
     </div>
   ) : p.image ? (
-    <img src={p.image.src} alt={p.image.alt} width={p.image.w} height={p.image.h} loading="lazy" decoding="async" class="block w-full border-b border-line object-cover object-left-top md:h-full md:border-b-0 md:border-r" />
+    <img src={p.image.src} alt={p.image.alt} width={p.image.w} height={p.image.h} loading="lazy" decoding="async" class={`block w-full border-b border-line object-cover object-left-top md:h-full md:border-b-0 ${flip ? "md:order-2 md:border-l" : "md:border-r"}`} />
   ) : (
     <div class="cover" style={`--gx:${gx};--gy:${gy}`} role="img" aria-label={`Visuel du projet ${p.title} (capture à fournir)`}>
       <span class="cover-icon"><Icon name={p.icon} /></span>

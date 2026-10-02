@@ -46,6 +46,7 @@ Un seul accent : l'émeraude. Ne pas ajouter d'autre couleur vive.
 - Rayons : cartes 1rem, boutons 0.75rem, pastilles en pilule. Un seul défilement (marquee) sur la page.
 - Sections, dans l'ordre : Hero (collage de couvertures de projets + logos), Projets (couvertures `.cover`), Ce que je fais (bento), À propos (photo + texte court), Contact. Pas d'eyebrows ni de numérotation.
 - `.card` impose `position: relative` : pour positionner une carte en absolu, utiliser `style="position:absolute"`.
+- Un projet avec `wide: true` occupe toute la largeur (le premier a l'image à gauche, le suivant à droite, en alternance).
 - Une capture s'ajoute via le champ `image` d'un projet dans `site.ts` (fichier webp dans `public/projects/`, ~1800 px de large).
 - Les couvertures `.cover` sont abstraites (dégradé + icône) : les remplacer par de vraies captures anonymisées quand elles existent.
 - Animations : entrée du hero, apparition au scroll, projecteur au survol des cartes, barre de progression, bandeau de logos. Toutes désactivées sous `prefers-reduced-motion`.

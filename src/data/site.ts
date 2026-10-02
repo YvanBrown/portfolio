@@ -98,6 +98,7 @@ export const projects: Project[] = [
     link: "https://paynala-dashboard.paynala-dashboard-backend.workers.dev",
     result: "Une vue centralisée pour suivre les transactions et produire les rapports opérationnels.",
     icon: "chart-bar",
+    wide: true,
     image: { src: "/projects/dashboard.webp", alt: "Capture du dashboard Suivi des transactions : filtres, indicateurs clés, courbe succès et échecs, réconciliation par wallet", w: 1800, h: 964 },
   },
   {
@@ -134,5 +135,17 @@ export const projects: Project[] = [
     result: "Interface graphique réalisée pour l'écran d'accueil et les services de paiement.",
     icon: "device-mobile",
     image: { src: "/projects/paynala-myairtel.webp", alt: "Interface Paynala : services de paiement classés par catégorie et recherche de marchand", w: 630, h: 1306, kind: "phone" },
+  },
+  {
+    title: "Site vitrine TONJI",
+    role: "Réalisation",
+    summary:
+      "Landing page de TONJI : présentation des cagnottes, des accès par application, WhatsApp et USSD, FAQ et contact.",
+    tech: ["Landing page", "Cloudflare Workers"], // À CONFIRMER
+    link: "https://tonji-landing.paynala-dashboard-backend.workers.dev/#produit",
+    result: "Site en ligne qui présente TONJI et oriente vers l'application.",
+    icon: "pig-money",
+    wide: true,
+    image: { src: "/projects/tonji-landing.webp", alt: "Page d'accueil du site TONJI : « La cagnotte, réinventée », avec le bouton Cotiser maintenant", w: 1440, h: 900 },
   },
 ];
